@@ -2,7 +2,7 @@ package com.codepath.debuggingchallenges.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
+import android.widget.ListView;
 
 import com.codepath.debuggingchallenges.R;
 import com.codepath.debuggingchallenges.adapters.MoviesAdapter;
@@ -22,7 +22,7 @@ public class MoviesActivity extends AppCompatActivity {
 
     private static final String API_KEY = "a07e22bc18f5cb106bfe4cc1f83ad8ed";
 
-    RecyclerView rvMovies;
+    ListView lvMovies;
     MoviesAdapter adapter;
     ArrayList<Movie> movies;
 
@@ -30,20 +30,18 @@ public class MoviesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
-        rvMovies = findViewById(R.id.rvMovies);
+        lvMovies = (ListView) findViewById(R.id.lvMovies);
 
         // Create the adapter to convert the array to views
-        MoviesAdapter adapter = new MoviesAdapter(movies);
 
         // Attach the adapter to a ListView
-        rvMovies.setAdapter(adapter);
 
         fetchMovies();
     }
 
 
     private void fetchMovies() {
-        String url = " https://api.themoviedb.org/3/movie/now_playing?api_key=";
+        String url = " https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, null, new JsonHttpResponseHandler() {
             @Override
@@ -51,6 +49,8 @@ public class MoviesActivity extends AppCompatActivity {
                 try {
                     JSONArray moviesJson = response.getJSONArray("results");
                     movies = Movie.fromJSONArray(moviesJson);
+                    adapter = new MoviesAdapter(MoviesActivity.this, movies);
+                    lvMovies.setAdapter(adapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

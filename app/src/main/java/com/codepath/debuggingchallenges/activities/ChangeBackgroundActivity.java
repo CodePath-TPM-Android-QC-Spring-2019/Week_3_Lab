@@ -9,7 +9,7 @@ import com.codepath.debuggingchallenges.R;
 
 public class ChangeBackgroundActivity extends AppCompatActivity {
 
-    private int oldColor = Color.BLUE;
+    private int mColor = Color.BLUE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +23,6 @@ public class ChangeBackgroundActivity extends AppCompatActivity {
     }
 
     private int getNextColor() {
-        int newColor = (oldColor == Color.BLUE) ? Color.RED : Color.BLUE;
-        oldColor = newColor;
-        return newColor;
+        return mColor = (mColor == Color.BLUE) ? Color.RED : Color.BLUE;
     }
 }
